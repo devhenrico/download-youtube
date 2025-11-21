@@ -17,7 +17,6 @@ def baixar_video(url, formato):
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3',
-                    'preferredquality': '320',
                 }],
             }
 
