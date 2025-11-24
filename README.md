@@ -1,4 +1,3 @@
-
 # 🎬 YouTube Downloader (MP3/MP4)
 
 Um script em Python para baixar vídeos do YouTube em alta qualidade, nos formatos MP4 (vídeo) ou MP3 (áudio), utilizando a biblioteca [yt-dlp](https://github.com/yt-dlp/yt-dlp).
@@ -8,6 +7,8 @@ Um script em Python para baixar vídeos do YouTube em alta qualidade, nos format
 - 📥 **Download de vídeos** do YouTube em MP4 (vídeo) ou MP3 (áudio)
 - 🎧 **Extração automática de áudio** em MP3 usando ffmpeg
 - 🏷️ **Nomeação automática** dos arquivos pelo título do vídeo
+- 🖼️ **Download e inserção da miniatura** (thumbnail) nos arquivos MP3
+- 🏷️ **Inserção de metadados** (nome do canal, título, etc.) nos arquivos baixados
 - 🔄 **Interface interativa** via terminal
 - ❌ **Validação de formatos** e URLs
 
@@ -37,6 +38,7 @@ Um script em Python para baixar vídeos do YouTube em alta qualidade, nos format
 2. Digite a URL do vídeo do YouTube quando solicitado.
 3. Escolha o formato desejado: `mp4` para vídeo ou `mp3` para áudio.
 4. O arquivo será salvo na mesma pasta do script, com o nome do vídeo.
+5. Os metadados (nome do canal, título, etc.) e a miniatura (para MP3) serão inseridos automaticamente.
 
 ## 📝 Licença
 
