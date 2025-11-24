@@ -1,4 +1,5 @@
 import yt_dlp
+import os
 
 def baixar_video(url, formato):
     
@@ -8,16 +9,32 @@ def baixar_video(url, formato):
                 'format': 'bestvideo+bestaudio/best',
                 'outtmpl': '%(title)s.%(ext)s',
                 'merge_output_format': 'mp4',
+                'postprocessors': [
+                    {
+                    'key': 'FFmpegMetadata',
+                    'add_metadata': True,
+                    },
+                ],
             }
 
         elif formato == 'mp3':
             ydl_opts = {
                 'format': 'bestaudio/best',
                 'outtmpl': '%(title)s.%(ext)s',
-                'postprocessors': [{
-                    'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'mp3',
-                }],
+                'postprocessors': [
+                    {
+                        'key': 'FFmpegExtractAudio',
+                        'preferredcodec': 'mp3',
+                    },
+                    {
+                        'key': 'FFmpegMetadata',
+                        'add_metadata': True,
+                    },
+                    {
+                        'key': 'EmbedThumbnail',
+                    },
+                ],
+                'writethumbnail': True,
             }
 
         else:
@@ -25,6 +42,33 @@ def baixar_video(url, formato):
             return False
 
         print(f"\n🔄 Iniciando download em formato {formato.upper()}...\n")
+        
+        with yt_dlp.YoutubeDL({'quiet': True}) as ydl_info:
+            info = ydl_info.extract_info(url, download=False)
+            canal = info.get('uploader', 'Desconhecido')
+            titulo = info.get('title', 'Sem título')
+            
+            print(f"📹 Vídeo: {titulo}")
+            print(f"👤 Canal: {canal}")
+        
+        if formato == 'mp3':
+            ydl_opts['postprocessors'].insert(1, {
+                'key': 'FFmpegMetadata',
+                'add_metadata': True,
+            })
+            ydl_opts['postprocessor_args'] = {
+                'ffmpeg': [
+                    '-metadata', f'artist={canal}',
+                    '-metadata', f'album={canal}',
+                ]
+            }
+        else:
+            ydl_opts['postprocessor_args'] = {
+                'ffmpeg': [
+                    '-metadata', f'artist={canal}',
+                    '-metadata', f'album={canal}',
+                ]
+            }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
