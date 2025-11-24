@@ -81,7 +81,7 @@ def baixar_video(url, formato):
 
 def main():
     print("=" * 50)
-    print("   YOUTUBE DOWNLOADER - MP3/MP4")
+    print("   YOUTUBE DOWNLOADER - MP4/MP3")
     print("=" * 50)
     
     while True:
