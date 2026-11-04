@@ -59,7 +59,11 @@ def download_media(url, formato, directory):
     options = {
         "outtmpl": output,
         "noplaylist": True,
-        "extractor_args": {"youtube": {"player_client": ["android"]}},
+        "js_runtimes": {"deno": None},
+        "remote_components": ["ejs:npm"],
+        "extractor_args": {
+            "youtube": {"player_client": ["web_safari", "tv", "mweb"]}
+        },
         "retries": 5,
         "fragment_retries": 5,
         "socket_timeout": 30,

@@ -133,7 +133,7 @@ Instale o Deno pelas instruções oficiais em [docs.deno.com](https://docs.deno.
 deno --version
 ```
 
-A instalação pelo `pip install -r requirements.txt` inclui o componente EJS necessário ao `yt-dlp` (`yt-dlp[default]`). Não é preciso configurar cookies ou chave de API para vídeos públicos comuns.
+A instalação pelo `pip install -r requirements.txt` inclui o componente EJS necessário ao `yt-dlp` (`yt-dlp[default]`). O aplicativo habilita o Deno e os componentes EJS do npm ao acessar o YouTube. Não é preciso configurar cookies ou chave de API para vídeos públicos comuns.
 
 ### 4. Inicie o servidor
 
