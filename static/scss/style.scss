@@ -1015,7 +1015,7 @@ body {
     padding: 26px 14px 24px;
   }
   .glass-panel {
-    padding: 25px 22px 41px;
+    padding: 21px 22px 31px;
     border-radius: 34px;
 
     &::after {
@@ -1023,15 +1023,15 @@ body {
     }
   }
   .intro {
-    padding: 29px 0 18px;
+    padding: 24px 0 14px;
   }
   h1 {
     font-size: clamp(31px, 8.7vw, 39px);
   }
   .format-face {
-    padding: 15px 11px;
+    padding: 12px 11px;
     gap: 9px;
-    min-height: 76px;
+    min-height: 70px;
     border-radius: 22px;
   }
   .format-name {

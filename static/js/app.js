@@ -159,9 +159,7 @@
     button.setAttribute("aria-busy", "true");
     buttonText.textContent = "Preparando download...";
     buttonIcon.innerHTML = spinner;
-    setStatus(
-      "Buscando a melhor qualidade disponível e preparando a capa. Arquivos grandes podem demorar.",
-    );
+    setStatus("Buscando a melhor qualidade disponível e preparando a capa.");
     try {
       const response = await fetch(form.action, {
         method: "POST",
