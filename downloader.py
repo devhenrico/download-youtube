@@ -59,7 +59,7 @@ def download_media(url, formato, directory):
     options = {
         "outtmpl": output,
         "noplaylist": True,
-        "js_runtimes": {"deno": None},
+        "js_runtimes": {"deno": {}},
         "remote_components": ["ejs:npm"],
         "extractor_args": {
             "youtube": {"player_client": ["web_safari", "tv", "mweb"]}
