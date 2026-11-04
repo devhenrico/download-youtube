@@ -1,0 +1,31 @@
+# Artefatos Python e ambientes virtuais
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# IDE e arquivos do sistema
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Runtime JS instalado no deploy, nunca versionar
+.deno/
+
+# Arquivos temporários e mídia baixada
+*.part
+*.ytdl
+*.temp
+*.mp3
+*.mp4
+*.webm
+*.m4a
+*.jpg.part
+cookies.txt
+downloads/
+
+# Dependências e caches Sass (não afetar o CSS gerado)
+node_modules/
+.sass-cache/
+*.css.map

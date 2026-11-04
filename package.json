@@ -1,0 +1,16 @@
+{
+  "name": "download-youtube",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Estilos Sass (SCSS) do frontend e da documentação Scalar",
+  "scripts": {
+    "sass:build": "sass --no-source-map static/scss:static/css",
+    "sass:watch": "sass --watch --no-source-map static/scss:static/css"
+  },
+  "devDependencies": {
+    "sass": "^1.93.0"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true
+  }
+}

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: download-youtube
+    runtime: python
+    plan: free
+    healthCheckPath: /health
+    buildCommand: >-
+      pip install -r requirements.txt &&
+      (test -x .deno/bin/deno || (curl -fsSL https://deno.land/install.sh | DENO_INSTALL="$PWD/.deno" sh))
+    startCommand: >-
+      PATH="$PWD/.deno/bin:$PATH" gunicorn --bind 0.0.0.0:${PORT:-10000}
+      --workers 1 --threads 2 --timeout 600 app:app

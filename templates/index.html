@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      sizes="any"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#090a0c" />
+    <meta
+      name="description"
+      content="Baixe vídeos e áudios do YouTube em MP4 ou MP3."
+    />
+    <title>Download YouTube</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body data-theme="dark">
+    <div class="environment" aria-hidden="true">
+      <div class="ambient"></div>
+    </div>
+    <div class="page">
+      <main class="glass-panel reactive-glass">
+        <div class="panel-top">
+          <div class="brand-lockup">
+            <span
+              class="glass-round brand-mark reactive-glass"
+              aria-hidden="true"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.7"
+              >
+                <path d="M12 3.5v13.5m0 0 5-5m-5 5-5-5" />
+                <path
+                  d="M4.5 17.5v1.3a1.8 1.8 0 0 0 1.8 1.8h11.4a1.8 1.8 0 0 0 1.8-1.8v-1.3"
+                />
+              </svg>
+            </span>
+            <div class="brand-label">
+              DOWNLOAD<span>YOUTUBE · MP3 / MP4</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="theme-toggle glass-round glass-control reactive-glass"
+            id="themeToggle"
+            aria-label="Ativar tema claro"
+            title="Alternar tema"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              id="themeIcon"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="intro">
+          <p class="eyebrow">SIMPLES. RÁPIDO. ELEGANTE.</p>
+          <h1>Baixe do YouTube.<em>Do seu jeito.</em></h1>
+          <p class="subtitle">
+            Um link, dois formatos. Tudo que você precisa, sem distrações.
+          </p>
+        </div>
+
+        <form id="downloadForm" method="post" action="/download" novalidate>
+          <div class="field-group">
+            <div class="field-head">
+              <label for="url">Link do vídeo</label
+              ><span class="field-index">01 / 02</span>
+            </div>
+            <div class="input-shell reactive-glass">
+              <span class="input-icon" aria-hidden="true"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M10 13.5a5 5 0 0 0 7.2.2l2.2-2.2a5 5 0 0 0-7.1-7.1l-1.3 1.3"
+                  />
+                  <path
+                    d="M14 10.5a5 5 0 0 0-7.2-.2l-2.2 2.2a5 5 0 0 0 7.1 7.1l1.3-1.3"
+                  /></svg
+              ></span>
+              <input
+                id="url"
+                name="url"
+                type="url"
+                required
+                maxlength="2048"
+                autocomplete="url"
+                autocapitalize="off"
+                spellcheck="false"
+                inputmode="url"
+                placeholder="Cole o link do vídeo aqui..."
+              />
+              <button type="button" id="pasteButton" class="paste-button">
+                Colar
+              </button>
+            </div>
+          </div>
+
+          <fieldset class="format-fieldset" aria-labelledby="formatTitle">
+            <div class="field-head">
+              <span class="field-title" id="formatTitle">Escolha o formato</span
+              ><span class="field-index">02 / 02</span>
+            </div>
+            <div class="format-grid">
+              <label class="format-option">
+                <input type="radio" name="format" value="mp4" checked />
+                <span class="format-face reactive-glass">
+                  <span class="format-icon" aria-hidden="true"
+                    ><svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="3.5" y="5" width="17" height="14" rx="3" />
+                      <path d="m10 9 5 3-5 3z" /></svg
+                  ></span>
+                  <span
+                    ><span class="format-name"
+                      ><span>Vídeo</span> <span>MP4</span></span
+                    ><span class="format-desc">Vídeo + áudio</span></span
+                  >
+                  <span class="format-check" aria-hidden="true"></span>
+                </span>
+              </label>
+              <label class="format-option">
+                <input type="radio" name="format" value="mp3" />
+                <span class="format-face reactive-glass">
+                  <span class="format-icon" aria-hidden="true"
+                    ><svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M9 18V6l11-2v12" />
+                      <circle cx="6" cy="18" r="3" />
+                      <circle cx="17" cy="16" r="3" /></svg
+                  ></span>
+                  <span
+                    ><span class="format-name"
+                      ><span>Áudio</span> <span>MP3</span></span
+                    ><span class="format-desc">Som apenas</span></span
+                  >
+                  <span class="format-check" aria-hidden="true"></span>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
+          <button
+            type="submit"
+            class="glass-button reactive-glass"
+            id="downloadButton"
+          >
+            <span id="downloadButtonText">Baixar arquivo</span>
+            <span class="button-action" aria-hidden="true"
+              ><svg
+                id="downloadIcon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 3.5v15m0 0 6-6m-6 6-6-6" /></svg
+            ></span>
+          </button>
+          <p id="status" class="status" aria-live="polite" role="status"></p>
+        </form>
+      </main>
+      <footer class="site-credit" aria-label="Créditos do projeto">
+        <span>Desenvolvido por</span
+        ><a
+          href="https://github.com/devhenrico"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub de devhenrico (abre em uma nova aba)"
+          >devhenrico</a
+        >
+      </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+  </body>
+</html>

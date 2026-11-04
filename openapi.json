@@ -1,0 +1,286 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Download YouTube — API",
+    "version": "1.0.0",
+    "summary": "Backend Flask do Download YouTube",
+    "description": "Documentação oficial dos endpoints HTTP da aplicação. Permite solicitar downloads em MP3 ou MP4 de conteúdos disponíveis no YouTube. A conversão MP3 usa a melhor fonte disponível e configura saída de até 320 kbps; a qualidade final depende da fonte. Use apenas conteúdo que você pode baixar. Não há autenticação ou fila distribuída.",
+    "contact": {
+      "name": "devhenrico",
+      "url": "https://github.com/devhenrico"
+    }
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Mesmo domínio onde a aplicação Flask está hospedada"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Aplicação",
+      "description": "Página web e interface de documentação."
+    },
+    {
+      "name": "Saúde",
+      "description": "Disponibilidade básica do servidor Flask."
+    },
+    {
+      "name": "Downloads",
+      "description": "Processamento e envio de mídia."
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Aplicação"
+        ],
+        "summary": "Exibir a aplicação",
+        "description": "Página principal com a interface Black Liquid Glass.",
+        "operationId": "getHome",
+        "responses": {
+          "200": {
+            "description": "Interface HTML",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Saúde"
+        ],
+        "summary": "Verificar saúde do servidor",
+        "description": "Confirma que o processo Flask está respondendo. Não testa conectividade com o YouTube.",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "Servidor ativo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                },
+                "example": {
+                  "status": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/download": {
+      "post": {
+        "tags": [
+          "Downloads"
+        ],
+        "summary": "Baixar vídeo MP4 ou áudio MP3",
+        "description": "Recebe uma URL válida do YouTube e o formato escolhido. Retorna o arquivo como anexo. Um download por vez é processado por worker. O processo pode demorar e depende da disponibilidade do vídeo. A resposta não é um JSON; no sucesso, o corpo contém dados binários. Links de vídeo que trazem parâmetros de playlist/rádio (como list e start_radio) são convertidos automaticamente para a URL individual com apenas o ID do vídeo. Links exclusivos de playlists são rejeitados; nunca se baixa a lista completa.",
+        "operationId": "postDownload",
+        "requestBody": {
+          "required": true,
+          "description": "Formulário aceito tanto como multipart/form-data quanto como application/x-www-form-urlencoded.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadRequest"
+              },
+              "example": {
+                "url": "https://www.youtube.com/watch?v=5r9e2ptR9iE&list=RD5r9e2ptR9iE&start_radio=1",
+                "format": "mp4"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Arquivo pronto para download. O nome é fornecido em Content-Disposition.",
+            "headers": {
+              "Content-Disposition": {
+                "description": "attachment; filename=...",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "video/mp4": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "audio/mpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "URL sem ID de vídeo individual, formato inválido ou link fora dos domínios permitidos",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Informe um link de vídeo válido do YouTube e escolha MP3 ou MP4."
+              }
+            }
+          },
+          "413": {
+            "description": "Corpo da requisição excede o limite permitido de 8192 bytes",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Já existe um download em andamento neste processo",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Já existe um download em andamento. Tente novamente depois."
+              }
+            }
+          },
+          "502": {
+            "description": "Falha ao extrair, baixar ou converter a mídia",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno no processamento",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/docs": {
+      "get": {
+        "tags": [
+          "Aplicação"
+        ],
+        "summary": "Abrir documentação Scalar",
+        "operationId": "getDocs",
+        "responses": {
+          "200": {
+            "description": "Interface HTML do Scalar",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "tags": [
+          "Aplicação"
+        ],
+        "summary": "Obter documento OpenAPI",
+        "operationId": "getOpenapi",
+        "responses": {
+          "200": {
+            "description": "Especificação OpenAPI 3.1 em JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthResponse": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "description": "Servidor disponível"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DownloadRequest": {
+        "type": "object",
+        "required": [
+          "url",
+          "format"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2048,
+            "description": "URL HTTP(S) de um vídeo individual do YouTube. Links de rádio/playlist com v=VIDEO_ID são aceitos, mas os demais parâmetros são descartados. URLs apenas de playlist são recusadas.",
+            "examples": [
+              "https://www.youtube.com/watch?v=5r9e2ptR9iE&list=RD5r9e2ptR9iE&start_radio=1",
+              "https://youtu.be/5r9e2ptR9iE"
+            ]
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "mp3",
+              "mp4"
+            ],
+            "description": "MP3 para áudio, MP4 para vídeo."
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
